@@ -1,0 +1,33 @@
+<cs-hero-slider [slides]="heroSlides" height="500px"></cs-hero-slider>
+
+<section class="section fav-page">
+  <div class="container">
+    <div class="section-head" csReveal>
+      <span class="eyebrow">Saved by You</span>
+      <h2 class="section-title">Favourite Recipes</h2>
+      <hr class="divider-gold" />
+      <p class="section-sub">Everything you've hearted, kept safely on this device.</p>
+    </div>
+
+    @if (loading) {
+      <cs-loading-skeleton [count]="4"></cs-loading-skeleton>
+    } @else if (favouriteRecipes.length === 0) {
+      <div class="empty-state" csReveal="scale">
+        <div class="empty-state__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h3>No favourites yet</h3>
+        <p>Tap the heart icon on any recipe card to save it here.</p>
+        <a routerLink="/recipes" class="btn btn-primary">Browse Recipes</a>
+      </div>
+    } @else {
+      <div class="grid-cards">
+        @for (r of favouriteRecipes; track r.id; let i = $index) {
+          <div csReveal [csRevealDelay]="i * 80">
+            <cs-recipe-card [recipe]="r"></cs-recipe-card>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>

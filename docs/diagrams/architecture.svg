@@ -1,0 +1,55 @@
+<svg viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arrowA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0c2b23"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="900" height="620" fill="#fffdf7"/>
+  <text x="450" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#0c2b23">CookSmart — Application Architecture</text>
+
+  <!-- Layer 1: Angular Application -->
+  <rect x="150" y="60" width="600" height="60" rx="10" fill="#0c2b23"/>
+  <text x="450" y="97" text-anchor="middle" fill="#fffdf7" font-size="16" font-weight="bold">Angular 17 Application (Standalone Components + Router)</text>
+
+  <!-- Layer 2: Components -->
+  <rect x="80" y="160" width="740" height="90" rx="10" fill="#184f40"/>
+  <text x="450" y="184" text-anchor="middle" fill="#e6bf63" font-size="14" font-weight="bold">Components (Pages + Shared UI)</text>
+  <text x="450" y="206" text-anchor="middle" fill="#fffdf7" font-size="12">Home · Preferences · Recipes · Recipe Details · Categories · AI Suggestion</text>
+  <text x="450" y="224" text-anchor="middle" fill="#fffdf7" font-size="12">Meal Planner · Favourites · Tips · About · Contact — Navbar · Footer · Cards · Toast</text>
+
+  <!-- Layer 3: Services -->
+  <rect x="80" y="280" width="740" height="90" rx="10" fill="#184f40"/>
+  <text x="450" y="304" text-anchor="middle" fill="#e6bf63" font-size="14" font-weight="bold">Services (Injectable, providedIn: 'root')</text>
+  <text x="450" y="326" text-anchor="middle" fill="#fffdf7" font-size="12">RecipeDataService · AiSuggestionService · FavouritesService</text>
+  <text x="450" y="344" text-anchor="middle" fill="#fffdf7" font-size="12">PlannerService · PreferenceService · ToastService</text>
+
+  <!-- Layer 4a: JSON data -->
+  <rect x="80" y="400" width="340" height="80" rx="10" fill="#d4a13c"/>
+  <text x="250" y="428" text-anchor="middle" font-size="14" font-weight="bold">Pre-populated JSON Data</text>
+  <text x="250" y="448" text-anchor="middle" font-size="12">recipes.json · categories.json · tips.json</text>
+  <text x="250" y="464" text-anchor="middle" font-size="11" font-style="italic">read-only, fetched via HttpClient</text>
+
+  <!-- Layer 4b: localStorage -->
+  <rect x="480" y="400" width="340" height="80" rx="10" fill="#c1602f"/>
+  <text x="650" y="428" text-anchor="middle" fill="#fffdf7" font-size="14" font-weight="bold">Browser localStorage</text>
+  <text x="650" y="448" text-anchor="middle" fill="#fffdf7" font-size="12">favourites · meal planner · preferences</text>
+  <text x="650" y="464" text-anchor="middle" fill="#fffdf7" font-size="11" font-style="italic">read + write, device-local only</text>
+
+  <!-- Optional API note -->
+  <rect x="80" y="510" width="340" height="60" rx="10" fill="none" stroke="#0c2b23" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <text x="250" y="534" text-anchor="middle" font-size="12" font-weight="bold" fill="#0c2b23">Optional: ASP.NET Core API</text>
+  <text x="250" y="552" text-anchor="middle" font-size="11" fill="#6b6459">Read-only GET endpoints re-serving the same JSON</text>
+
+  <!-- Arrows -->
+  <g stroke="#0c2b23" stroke-width="2" marker-end="url(#arrowA)" fill="none">
+    <path d="M450,120 L450,158"/>
+    <path d="M450,250 L450,278"/>
+    <path d="M370,370 L280,398"/>
+    <path d="M530,370 L620,398"/>
+    <path d="M250,480 L250,508"/>
+  </g>
+
+  <text x="450" y="600" text-anchor="middle" font-size="12" fill="#6b6459">
+    Data flows one way from JSON → app (read-only); localStorage is the only layer the app writes to.
+  </text>
+</svg>

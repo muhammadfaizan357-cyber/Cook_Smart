@@ -1,0 +1,37 @@
+[
+  {
+    "id": "breakfast",
+    "name": "Breakfast",
+    "icon": "breakfast",
+    "image": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=900&q=80",
+    "description": "Warm, energising starts to the day."
+  },
+  {
+    "id": "lunch",
+    "name": "Lunch",
+    "icon": "lunch",
+    "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=900&q=80",
+    "description": "Balanced midday meals, fast and filling."
+  },
+  {
+    "id": "dinner",
+    "name": "Dinner",
+    "icon": "dinner",
+    "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=900&q=80",
+    "description": "Hearty, comforting evening classics."
+  },
+  {
+    "id": "snacks",
+    "name": "Snacks",
+    "icon": "snacks",
+    "image": "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=900&q=80",
+    "description": "Quick bites for any time of day."
+  },
+  {
+    "id": "desserts",
+    "name": "Desserts",
+    "icon": "desserts",
+    "image": "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=900&q=80",
+    "description": "Sweet, indulgent finishing touches."
+  }
+]

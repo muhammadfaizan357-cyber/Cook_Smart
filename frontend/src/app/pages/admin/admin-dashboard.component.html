@@ -1,0 +1,786 @@
+<div class="admin-wrapper">
+  <!-- Top Admin Bar -->
+  <header class="admin-topbar">
+    <div class="admin-container admin-topbar__inner">
+      <div class="admin-topbar__brand">
+        <a routerLink="/" class="admin-logo-link">
+          <img src="assets/images/cooksmart-logo.png" alt="CookSmart" class="admin-logo" />
+        </a>
+        <span class="admin-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          Executive Admin Portal
+        </span>
+      </div>
+
+      <div class="admin-topbar__actions">
+        <a routerLink="/" class="btn-site">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          View Public Site
+        </a>
+
+        <div class="admin-profile">
+          @if (auth.currentUser()?.avatar) {
+            <img [src]="auth.currentUser()?.avatar" alt="Admin Avatar" class="admin-avatar" />
+          } @else {
+            <div class="admin-avatar-initials">
+              {{ getUserInitials(auth.currentUser()?.name) }}
+            </div>
+          }
+          <div class="admin-meta">
+            <span class="admin-name">{{ auth.currentUser()?.name || 'Administrator' }}</span>
+            <span class="admin-role">Master Admin</span>
+          </div>
+          <button class="btn-logout" (click)="logout()" title="Logout">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Body -->
+  <div class="admin-container admin-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <nav class="admin-nav">
+        <button
+          class="admin-nav-item"
+          [class.is-active]="activeTab === 'overview'"
+          (click)="activeTab = 'overview'"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>Overview &amp; Stats</span>
+        </button>
+
+        <button
+          class="admin-nav-item"
+          [class.is-active]="activeTab === 'recipes'"
+          (click)="activeTab = 'recipes'"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+            <line x1="6" y1="1" x2="6" y2="4"></line>
+            <line x1="10" y1="1" x2="10" y2="4"></line>
+            <line x1="14" y1="1" x2="14" y2="4"></line>
+          </svg>
+          <span>Recipe Manager</span>
+          <span class="nav-counter">{{ recipes.length }}</span>
+        </button>
+
+        <button
+          class="admin-nav-item"
+          [class.is-active]="activeTab === 'messages'"
+          (click)="activeTab = 'messages'"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span>Inquiries &amp; Feedback</span>
+          @if (unreadMessagesCount > 0) {
+            <span class="nav-counter nav-counter--alert">{{ unreadMessagesCount }}</span>
+          }
+        </button>
+
+        <button
+          class="admin-nav-item"
+          [class.is-active]="activeTab === 'users'"
+          (click)="activeTab = 'users'"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>User Accounts</span>
+          <span class="nav-counter">{{ users.length }}</span>
+        </button>
+
+        <button
+          class="admin-nav-item"
+          [class.is-active]="activeTab === 'tips'"
+          (click)="activeTab = 'tips'"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="23 7 16 12 23 17 23 7"></polygon>
+            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+          </svg>
+          <span>Cooking Tips &amp; Videos</span>
+          <span class="nav-counter">{{ tips.length }}</span>
+        </button>
+
+        <button
+          class="admin-nav-item"
+          [class.is-active]="activeTab === 'settings'"
+          (click)="activeTab = 'settings'"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>System &amp; Database</span>
+        </button>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+
+      <!-- ============================================== -->
+      <!-- TAB 1: OVERVIEW & STATS -->
+      <!-- ============================================== -->
+      @if (activeTab === 'overview') {
+        <div class="tab-pane">
+          <div class="pane-head">
+            <div>
+              <span class="eyebrow">Executive Summary</span>
+              <h1 class="pane-title">Culinary Platform Dashboard</h1>
+            </div>
+            <button class="btn btn-primary" (click)="openAddRecipeModal()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;margin-right:6px">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Add New Recipe
+            </button>
+          </div>
+
+          <!-- KPI Cards -->
+          <div class="kpi-grid">
+            <div class="kpi-card cs-card">
+              <div class="kpi-icon kpi-icon--gold">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                  <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                  <line x1="6" y1="1" x2="6" y2="4"></line>
+                  <line x1="10" y1="1" x2="10" y2="4"></line>
+                  <line x1="14" y1="1" x2="14" y2="4"></line>
+                </svg>
+              </div>
+              <div class="kpi-info">
+                <span class="kpi-val">{{ recipes.length }}</span>
+                <span class="kpi-label">Active Recipes</span>
+              </div>
+            </div>
+
+            <div class="kpi-card cs-card">
+              <div class="kpi-icon kpi-icon--emerald">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <div class="kpi-info">
+                <span class="kpi-val">{{ users.length }}</span>
+                <span class="kpi-label">Registered Members</span>
+              </div>
+            </div>
+
+            <div class="kpi-card cs-card">
+              <div class="kpi-icon kpi-icon--amber">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <div class="kpi-info">
+                <span class="kpi-val">{{ messages.length }}</span>
+                <span class="kpi-label">Inquiries Received ({{ unreadMessagesCount }} new)</span>
+              </div>
+            </div>
+
+            <div class="kpi-card cs-card">
+              <div class="kpi-icon kpi-icon--teal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                </svg>
+              </div>
+              <div class="kpi-info">
+                <span class="kpi-val">{{ tips.length }}</span>
+                <span class="kpi-label">Video Tips &amp; Guides</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Overview Sections -->
+          <div class="overview-grid">
+            <!-- Recent Inquiries -->
+            <div class="cs-card overview-box">
+              <div class="overview-box__head">
+                <h3>Recent Member Inquiries</h3>
+                <button class="btn-link" (click)="activeTab = 'messages'">View All →</button>
+              </div>
+              @if (messages.length === 0) {
+                <p class="empty-state">No inquiries received yet.</p>
+              } @else {
+                <div class="overview-messages-list">
+                  @for (m of messages.slice(0, 4); track m.id) {
+                    <div class="overview-msg-item" [class.is-unread]="!m.read">
+                      <div class="msg-author">
+                        <strong>{{ m.name }}</strong> &bull; <span>{{ m.topic }}</span>
+                      </div>
+                      <div class="msg-snippet">{{ m.message }}</div>
+                      <div class="msg-meta">
+                        <span>Rating: {{ m.rating }}/5</span>
+                        <span>{{ m.createdAt | date:'short' }}</span>
+                      </div>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Recent Recipes -->
+            <div class="cs-card overview-box">
+              <div class="overview-box__head">
+                <h3>Latest Published Recipes</h3>
+                <button class="btn-link" (click)="activeTab = 'recipes'">Manage All →</button>
+              </div>
+              <div class="overview-recipes-list">
+                @for (r of recipes.slice(0, 4); track r.id) {
+                  <div class="overview-recipe-item">
+                    <img [src]="r.image" [alt]="r.name" class="recipe-thumb" />
+                    <div class="recipe-item-info">
+                      <h4>{{ r.name }}</h4>
+                      <div class="recipe-item-tags">
+                        <span class="badge badge-cat">{{ r.category }}</span>
+                        <span class="recipe-time">{{ r.cookingTimeMinutes }} min</span>
+                      </div>
+                    </div>
+                    <button class="btn-edit-mini" (click)="openEditRecipeModal(r)">Edit</button>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- ============================================== -->
+      <!-- TAB 2: RECIPES CRUD -->
+      <!-- ============================================== -->
+      @if (activeTab === 'recipes') {
+        <div class="tab-pane">
+          <div class="pane-head">
+            <div>
+              <span class="eyebrow">Catalog Control</span>
+              <h1 class="pane-title">Recipe Management</h1>
+            </div>
+            <button class="btn btn-primary" (click)="openAddRecipeModal()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;margin-right:6px">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Add New Recipe
+            </button>
+          </div>
+
+          <!-- Filter Toolbar -->
+          <div class="cs-card table-toolbar">
+            <div class="search-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" [(ngModel)]="recipeSearch" placeholder="Search recipe by name or description..." />
+            </div>
+
+            <div class="cat-filter-wrap">
+              <select [(ngModel)]="recipeCategoryFilter">
+                <option value="all">All Categories</option>
+                @for (c of categories; track c.id) {
+                  <option [value]="c.id">{{ c.name }}</option>
+                }
+              </select>
+            </div>
+          </div>
+
+          <!-- Recipe Table -->
+          <div class="cs-card table-card">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Recipe</th>
+                  <th>Category</th>
+                  <th>Difficulty</th>
+                  <th>Cooking Time</th>
+                  <th>Servings</th>
+                  <th>Highlights</th>
+                  <th style="text-align: right">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (r of filteredRecipes; track r.id) {
+                  <tr>
+                    <td>
+                      <div class="table-recipe-cell">
+                        <img [src]="r.image" [alt]="r.name" class="recipe-thumb" />
+                        <div>
+                          <strong>{{ r.name }}</strong>
+                          <span class="recipe-id">ID: {{ r.id }}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-cat">{{ r.category }}</span></td>
+                    <td><span class="badge" [class.badge-easy]="r.difficulty === 'Easy'" [class.badge-medium]="r.difficulty === 'Medium'" [class.badge-hard]="r.difficulty === 'Hard'">{{ r.difficulty }}</span></td>
+                    <td>{{ r.cookingTimeMinutes }} mins</td>
+                    <td>{{ r.servings }} people</td>
+                    <td>
+                      @if (r.featured) { <span class="tag-feat">Featured</span> }
+                      @if (r.popular) { <span class="tag-pop">Popular</span> }
+                    </td>
+                    <td style="text-align: right">
+                      <div class="action-btns">
+                        <button class="btn-action btn-action--edit" (click)="openEditRecipeModal(r)" title="Edit Recipe">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                          </svg>
+                        </button>
+                        <button class="btn-action btn-action--delete" (click)="deleteRecipe(r)" title="Delete Recipe">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                          </svg>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+
+      <!-- ============================================== -->
+      <!-- TAB 3: CONTACT INQUIRIES & MESSAGES -->
+      <!-- ============================================== -->
+      @if (activeTab === 'messages') {
+        <div class="tab-pane">
+          <div class="pane-head">
+            <div>
+              <span class="eyebrow">Customer Communication</span>
+              <h1 class="pane-title">Contact &amp; Feedback Messages</h1>
+            </div>
+            <span class="badge badge-info">{{ messages.length }} Total Submissions</span>
+          </div>
+
+          @if (messages.length === 0) {
+            <div class="cs-card empty-card">
+              <p>No feedback or contact submissions yet. Submissions from the public Contact page will arrive here in real-time.</p>
+            </div>
+          } @else {
+            <div class="messages-grid">
+              @for (m of messages; track m.id) {
+                <div class="cs-card msg-card" [class.is-unread]="!m.read">
+                  <div class="msg-card__head">
+                    <div>
+                      <div class="msg-sender">
+                        <h3>{{ m.name }}</h3>
+                        <span class="msg-email">&lt;{{ m.email }}&gt;</span>
+                      </div>
+                      <div class="msg-topic-badge">Topic: <strong>{{ m.topic }}</strong></div>
+                    </div>
+                    <div class="msg-stars">
+                      Rating: <strong>{{ m.rating }}/5</strong>
+                    </div>
+                  </div>
+
+                  <div class="msg-card__body">
+                    <p>{{ m.message }}</p>
+                  </div>
+
+                  <div class="msg-card__footer">
+                    <span class="msg-date">Submitted: {{ m.createdAt | date:'medium' }}</span>
+                    <div class="msg-actions">
+                      <button class="btn-sm" (click)="toggleMessageRead(m)">
+                        {{ m.read ? 'Mark Unread' : 'Mark as Read ✓' }}
+                      </button>
+                      <button class="btn-sm btn-sm--danger" (click)="deleteMessage(m)">
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+
+      <!-- ============================================== -->
+      <!-- TAB 4: USER ACCOUNTS -->
+      <!-- ============================================== -->
+      @if (activeTab === 'users') {
+        <div class="tab-pane">
+          <div class="pane-head">
+            <div>
+              <span class="eyebrow">Membership Directory</span>
+              <h1 class="pane-title">User Accounts &amp; Roles</h1>
+            </div>
+          </div>
+
+          <div class="cs-card table-card">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>User Profile</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Joined Date</th>
+                  <th style="text-align: right">Account Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (u of users; track u.id) {
+                  <tr>
+                    <td>
+                      <div class="table-user-cell">
+                        @if (u.avatar) {
+                          <img [src]="u.avatar" alt="" class="user-avatar-mini" />
+                        } @else {
+                          <span class="user-initials-mini">{{ getUserInitials(u.name) }}</span>
+                        }
+                        <strong>{{ u.name }}</strong>
+                      </div>
+                    </td>
+                    <td>{{ u.email }}</td>
+                    <td>
+                      <span class="badge" [class.badge-gold]="u.role === 'admin'" [class.badge-cat]="u.role === 'user'">
+                        {{ u.role === 'admin' ? 'Admin' : 'Member' }}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="status-pill" [class.status-active]="u.status === 'active'" [class.status-blocked]="u.status === 'blocked'">
+                        {{ u.status }}
+                      </span>
+                    </td>
+                    <td>{{ u.createdAt | date:'mediumDate' }}</td>
+                    <td style="text-align: right">
+                      @if (u.role !== 'admin') {
+                        <div class="action-btns">
+                          <button class="btn-sm" (click)="toggleUserStatus(u)">
+                            {{ u.status === 'active' ? 'Suspend' : 'Activate' }}
+                          </button>
+                          <button class="btn-sm btn-sm--danger" (click)="deleteUser(u)">
+                            Delete
+                          </button>
+                        </div>
+                      } @else {
+                        <span class="master-admin-tag">Protected Admin</span>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+
+      <!-- ============================================== -->
+      <!-- TAB 5: COOKING TIPS & VIDEOS -->
+      <!-- ============================================== -->
+      @if (activeTab === 'tips') {
+        <div class="tab-pane">
+          <div class="pane-head">
+            <div>
+              <span class="eyebrow">Culinary Masterclasses</span>
+              <h1 class="pane-title">Cooking Tips &amp; Videos</h1>
+            </div>
+            <button class="btn btn-primary" (click)="openAddTipModal()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;margin-right:6px">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Add Video Tip
+            </button>
+          </div>
+
+          <div class="tips-admin-grid">
+            @for (t of tips; track t.id) {
+              <div class="cs-card tip-admin-card">
+                <img [src]="t.image" [alt]="t.title" class="tip-admin-img" />
+                <div class="tip-admin-body">
+                  <span class="badge badge-cat">{{ t.category }} &bull; {{ t.type }}</span>
+                  <h4>{{ t.title }}</h4>
+                  <p>{{ t.content }}</p>
+                  @if (t.videoUrl) {
+                    <div class="tip-video-link">Video Link Configured</div>
+                  }
+                </div>
+                <div class="tip-admin-footer">
+                  <button class="btn-sm" (click)="openEditTipModal(t)">Edit</button>
+                  <button class="btn-sm btn-sm--danger" (click)="deleteTip(t)">Delete</button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- ============================================== -->
+      <!-- TAB 6: SYSTEM & DATABASE SETTINGS -->
+      <!-- ============================================== -->
+      @if (activeTab === 'settings') {
+        <div class="tab-pane">
+          <div class="pane-head">
+            <div>
+              <span class="eyebrow">System Management</span>
+              <h1 class="pane-title">Database &amp; Storage Settings</h1>
+            </div>
+          </div>
+
+          <div class="cs-card settings-card">
+            <h3>Database Management</h3>
+            <p>Your CookSmart platform utilizes an automated persistent storage engine with real-time reactive sync across all user and admin sessions.</p>
+
+            <hr class="divider-gold" style="margin: 20px 0" />
+
+            <div class="setting-action-row">
+              <div>
+                <strong>Factory Reset Database</strong>
+                <p>Restore all default recipes, categories, tips, and initial administrator data to original seed state.</p>
+              </div>
+              <button class="btn btn-outline" style="border-color: #ef4444; color: #ef4444;" (click)="resetDb()">
+                Reset Database to Seed Data
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+
+    </main>
+  </div>
+</div>
+
+<!-- =================================================== -->
+<!-- RECIPE ADD / EDIT MODAL -->
+<!-- =================================================== -->
+@if (isRecipeModalOpen) {
+  <div class="admin-modal-backdrop" (click)="closeRecipeModal()">
+    <div class="admin-modal cs-card" (click)="$event.stopPropagation()">
+      <div class="admin-modal__head">
+        <h2>{{ editingRecipeId ? 'Edit Recipe Details' : 'Add New Culinary Recipe' }}</h2>
+        <button class="modal-close" (click)="closeRecipeModal()">✕</button>
+      </div>
+
+      <form [formGroup]="recipeForm" (ngSubmit)="saveRecipe()" class="recipe-crud-form">
+        <div class="form-row form-row--2">
+          <div class="form-group">
+            <label class="field-label">Recipe Title <span class="required">*</span></label>
+            <input type="text" formControlName="name" placeholder="e.g. Creamy Tuscan Garlic Chicken" />
+          </div>
+
+          <div class="form-group">
+            <label class="field-label">Category <span class="required">*</span></label>
+            <select formControlName="category">
+              @for (c of categories; track c.id) {
+                <option [value]="c.id">{{ c.name }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="field-label">Recipe Photo <span class="required">*</span></label>
+          <div class="file-upload-box">
+            <input #recipeFileInput type="file" accept="image/*" (change)="onImageFileSelected($event, 'recipe')" style="display: none;" />
+            <div class="file-upload-controls">
+              <button type="button" class="btn btn-outline btn-sm file-btn" (click)="recipeFileInput.click()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;margin-right:6px">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                Upload Image File
+              </button>
+              <span class="file-divider">or enter image URL</span>
+            </div>
+            <input type="text" formControlName="image" placeholder="https://images.unsplash.com/... or choose file above" class="image-url-input" />
+          </div>
+          @if (recipeForm.value.image) {
+            <div class="image-preview">
+              <img [src]="recipeForm.value.image" alt="Preview" />
+              <span>Live Image Preview</span>
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label class="field-label">Description / Flavor Profile <span class="required">*</span></label>
+          <textarea rows="2" formControlName="description" placeholder="A rich, fragrant dish featuring fresh herbs..."></textarea>
+        </div>
+
+        <div class="form-row form-row--3">
+          <div class="form-group">
+            <label class="field-label">Cooking Time (Mins) <span class="required">*</span></label>
+            <input type="number" formControlName="cookingTimeMinutes" min="1" />
+          </div>
+          <div class="form-group">
+            <label class="field-label">Servings (People) <span class="required">*</span></label>
+            <input type="number" formControlName="servings" min="1" />
+          </div>
+          <div class="form-group">
+            <label class="field-label">Difficulty <span class="required">*</span></label>
+            <select formControlName="difficulty">
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Ingredients List Builder -->
+        <div class="builder-section">
+          <label class="field-label">Ingredients List ({{ recipeIngredientsList.length }}) <span class="required">*</span></label>
+          <div class="builder-input-row">
+            <input type="text" [(ngModel)]="newIngredientInput" [ngModelOptions]="{standalone: true}" (keydown.enter)="$event.preventDefault(); addIngredient()" placeholder="Type ingredient (e.g. 2 cloves garlic, minced) and hit Enter" />
+            <button type="button" class="btn btn-outline btn-sm" (click)="addIngredient()">+ Add Item</button>
+          </div>
+          <div class="builder-items-pills">
+            @for (ing of recipeIngredientsList; track ing; let i = $index) {
+              <span class="builder-pill">
+                {{ ing }}
+                <button type="button" (click)="removeIngredient(i)">✕</button>
+              </span>
+            }
+          </div>
+        </div>
+
+        <!-- Cooking Steps Builder -->
+        <div class="builder-section">
+          <label class="field-label">Preparation &amp; Cooking Steps ({{ recipeStepsList.length }}) <span class="required">*</span></label>
+          <div class="builder-input-row">
+            <input type="text" [(ngModel)]="newStepInput" [ngModelOptions]="{standalone: true}" (keydown.enter)="$event.preventDefault(); addStep()" placeholder="Type next instruction step..." />
+            <button type="button" class="btn btn-outline btn-sm" (click)="addStep()">+ Add Step</button>
+          </div>
+          <ol class="builder-steps-list">
+            @for (step of recipeStepsList; track step; let i = $index) {
+              <li>
+                <span>{{ step }}</span>
+                <button type="button" class="btn-remove-step" (click)="removeStep(i)">✕</button>
+              </li>
+            }
+          </ol>
+        </div>
+
+        <!-- Highlights -->
+        <div class="form-row form-row--2 form-checkboxes">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="featured" />
+            <span>Mark as Featured Recipe (Shows on Homepage)</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="popular" />
+            <span>Mark as Popular / Trending</span>
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" (click)="closeRecipeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            {{ editingRecipeId ? 'Save Changes' : 'Publish Recipe' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
+
+<!-- =================================================== -->
+<!-- TIP ADD / EDIT MODAL -->
+<!-- =================================================== -->
+@if (isTipModalOpen) {
+  <div class="admin-modal-backdrop" (click)="closeTipModal()">
+    <div class="admin-modal cs-card" (click)="$event.stopPropagation()">
+      <div class="admin-modal__head">
+        <h2>{{ editingTipId ? 'Edit Cooking Tip' : 'Add Cooking Tip & Video' }}</h2>
+        <button class="modal-close" (click)="closeTipModal()">✕</button>
+      </div>
+
+      <form [formGroup]="tipForm" (ngSubmit)="saveTip()" class="recipe-crud-form">
+        <div class="form-group">
+          <label class="field-label">Tip Title <span class="required">*</span></label>
+          <input type="text" formControlName="title" placeholder="e.g. How to Emulsify Rich Butter Sauces" />
+        </div>
+
+        <div class="form-row form-row--2">
+          <div class="form-group">
+            <label class="field-label">Category</label>
+            <select formControlName="category">
+              <option value="general">General Culinary</option>
+              @for (c of categories; track c.id) {
+                <option [value]="c.id">{{ c.name }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="field-label">Media Type</label>
+            <select formControlName="type">
+              <option value="video">Video &amp; Text</option>
+              <option value="text">Text Only</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="field-label">Cover Image <span class="required">*</span></label>
+          <div class="file-upload-box">
+            <input #tipFileInput type="file" accept="image/*" (change)="onImageFileSelected($event, 'tip')" style="display: none;" />
+            <div class="file-upload-controls">
+              <button type="button" class="btn btn-outline btn-sm file-btn" (click)="tipFileInput.click()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;margin-right:6px">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                Upload Image File
+              </button>
+              <span class="file-divider">or enter image URL</span>
+            </div>
+            <input type="text" formControlName="image" placeholder="https://images.unsplash.com/... or choose file above" class="image-url-input" />
+          </div>
+          @if (tipForm.value.image) {
+            <div class="image-preview">
+              <img [src]="tipForm.value.image" alt="Preview" />
+              <span>Live Image Preview</span>
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label class="field-label">Video Embed URL (Optional)</label>
+          <input type="text" formControlName="videoUrl" placeholder="https://www.youtube.com/watch?v=..." />
+        </div>
+
+        <div class="form-group">
+          <label class="field-label">Tip Content &amp; Instructions <span class="required">*</span></label>
+          <textarea rows="3" formControlName="content" placeholder="Describe the culinary technique in detail..."></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" (click)="closeTipModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Tip</button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

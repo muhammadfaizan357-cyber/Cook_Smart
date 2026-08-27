@@ -1,0 +1,382 @@
+[
+  {
+    "id": "fluffy-pancakes",
+    "name": "Fluffy Buttermilk Pancakes",
+    "category": "breakfast",
+    "image": "https://images.unsplash.com/photo-1554520735-0a6b8b6ce8b7?w=900&q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1554520735-0a6b8b6ce8b7?w=1200&q=80",
+      "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=1200&q=80"
+    ],
+    "description": "Light, airy pancakes with a golden crust and soft buttermilk crumb.",
+    "ingredients": ["flour", "buttermilk", "eggs", "baking powder", "sugar", "butter", "salt", "vanilla extract"],
+    "steps": [
+      "Whisk flour, baking powder, sugar and salt together in a bowl.",
+      "In a separate bowl, beat eggs with buttermilk and vanilla extract.",
+      "Combine wet and dry ingredients gently — do not overmix, small lumps are fine.",
+      "Melt a little butter on a non-stick pan over medium heat.",
+      "Pour 1/4 cup batter per pancake and cook until bubbles form on top, about 2 minutes.",
+      "Flip and cook another 1-2 minutes until golden. Serve warm with syrup."
+    ],
+    "cookingTimeMinutes": 20,
+    "servings": 4,
+    "difficulty": "Easy",
+    "tags": ["sweet", "weekend", "kid-friendly"],
+    "popular": true,
+    "featured": true,
+    "relatedTipIds": ["tip-nonstick-pan"]
+  },
+  {
+    "id": "veggie-omelette",
+    "name": "Garden Vegetable Omelette",
+    "category": "breakfast",
+    "image": "https://images.unsplash.com/photo-1510693206972-df098062cb71?w=900&q=80",
+    "description": "A protein-packed omelette loaded with bell peppers, onion and tomato.",
+    "ingredients": ["eggs", "bell pepper", "onion", "tomato", "cheese", "butter", "salt", "black pepper"],
+    "steps": [
+      "Whisk eggs with a pinch of salt and pepper until fluffy.",
+      "Sauté diced onion and bell pepper in butter until softened, about 3 minutes.",
+      "Add chopped tomato and cook 1 more minute.",
+      "Pour eggs over the vegetables and let set on medium-low heat.",
+      "Sprinkle cheese on one half, fold the omelette over and slide onto a plate."
+    ],
+    "cookingTimeMinutes": 15,
+    "servings": 2,
+    "difficulty": "Easy",
+    "tags": ["protein", "quick", "vegetarian"],
+    "popular": true,
+    "featured": true
+  },
+  {
+    "id": "overnight-oats",
+    "name": "Honey Banana Overnight Oats",
+    "category": "breakfast",
+    "image": "https://images.unsplash.com/photo-1517673132405-a56a62b18caf?w=900&q=80",
+    "description": "No-cook oats soaked overnight with milk, honey and banana.",
+    "ingredients": ["oats", "milk", "honey", "banana", "chia seeds", "cinnamon"],
+    "steps": [
+      "Combine oats, milk, chia seeds and cinnamon in a jar.",
+      "Mash half the banana and stir it in with the honey.",
+      "Cover and refrigerate overnight (or at least 4 hours).",
+      "Top with sliced banana before serving."
+    ],
+    "cookingTimeMinutes": 10,
+    "servings": 1,
+    "difficulty": "Easy",
+    "tags": ["make-ahead", "healthy", "no-cook"]
+  },
+  {
+    "id": "shakshuka",
+    "name": "Classic Shakshuka",
+    "category": "breakfast",
+    "image": "https://images.unsplash.com/photo-1590412200988-a436970781fa?w=900&q=80",
+    "description": "Eggs poached in a spiced tomato and pepper sauce — a bold weekend brunch.",
+    "ingredients": ["eggs", "tomato", "bell pepper", "onion", "garlic", "cumin", "paprika", "olive oil"],
+    "steps": [
+      "Sauté onion, garlic and bell pepper in olive oil until soft.",
+      "Stir in cumin and paprika, cook until fragrant.",
+      "Add chopped tomatoes and simmer 10 minutes until thickened.",
+      "Make small wells in the sauce and crack eggs into them.",
+      "Cover and cook until egg whites are set but yolks remain runny, about 6 minutes."
+    ],
+    "cookingTimeMinutes": 30,
+    "servings": 3,
+    "difficulty": "Medium",
+    "tags": ["spiced", "brunch", "one-pan"]
+  },
+  {
+    "id": "chicken-caesar-wrap",
+    "name": "Grilled Chicken Caesar Wrap",
+    "category": "lunch",
+    "image": "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=900&q=80",
+    "description": "Crisp romaine, grilled chicken and Caesar dressing rolled in a soft tortilla.",
+    "ingredients": ["chicken breast", "romaine lettuce", "parmesan cheese", "caesar dressing", "tortilla", "garlic"],
+    "steps": [
+      "Season chicken breast with salt, pepper and garlic, then grill until cooked through.",
+      "Slice the chicken into strips.",
+      "Toss chopped romaine with Caesar dressing and shaved parmesan.",
+      "Lay the salad and chicken onto a warm tortilla and roll tightly.",
+      "Slice in half and serve."
+    ],
+    "cookingTimeMinutes": 25,
+    "servings": 2,
+    "difficulty": "Easy",
+    "tags": ["protein", "on-the-go"],
+    "popular": true
+  },
+  {
+    "id": "veggie-stirfry",
+    "name": "Sesame Vegetable Stir-Fry",
+    "category": "lunch",
+    "image": "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=900&q=80",
+    "description": "A crunchy medley of vegetables tossed in a savoury sesame-soy glaze.",
+    "ingredients": ["broccoli", "carrot", "bell pepper", "soy sauce", "garlic", "ginger", "sesame oil", "rice"],
+    "steps": [
+      "Heat sesame oil in a wok over high heat.",
+      "Add garlic and ginger, stir for 30 seconds until fragrant.",
+      "Add broccoli, carrot and bell pepper; stir-fry 4-5 minutes until crisp-tender.",
+      "Pour in soy sauce and toss to coat.",
+      "Serve hot over steamed rice."
+    ],
+    "cookingTimeMinutes": 20,
+    "servings": 3,
+    "difficulty": "Easy",
+    "tags": ["vegetarian", "quick", "healthy"],
+    "popular": true
+  },
+  {
+    "id": "lentil-soup",
+    "name": "Hearty Red Lentil Soup",
+    "category": "lunch",
+    "image": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=900&q=80",
+    "description": "A comforting, protein-rich soup simmered with warm spices.",
+    "ingredients": ["red lentils", "onion", "carrot", "garlic", "cumin", "vegetable broth", "lemon"],
+    "steps": [
+      "Sauté onion, carrot and garlic until softened.",
+      "Stir in cumin and toast for 30 seconds.",
+      "Add lentils and vegetable broth, bring to a boil.",
+      "Reduce heat and simmer 20 minutes until lentils are tender.",
+      "Blend partially for a creamy texture and finish with a squeeze of lemon."
+    ],
+    "cookingTimeMinutes": 35,
+    "servings": 4,
+    "difficulty": "Easy",
+    "tags": ["vegan", "comfort-food", "budget"]
+  },
+  {
+    "id": "club-sandwich",
+    "name": "Triple-Decker Club Sandwich",
+    "category": "lunch",
+    "image": "https://images.unsplash.com/photo-1553909489-cd47e0907980?w=900&q=80",
+    "description": "Toasted bread layered with chicken, bacon, lettuce, tomato and mayo.",
+    "ingredients": ["bread", "chicken breast", "bacon", "lettuce", "tomato", "mayonnaise"],
+    "steps": [
+      "Toast the bread slices until golden.",
+      "Cook bacon until crisp and grill or pan-fry chicken until done.",
+      "Spread mayonnaise on the toast.",
+      "Layer lettuce, tomato, chicken and bacon between the three bread slices.",
+      "Secure with toothpicks and slice diagonally."
+    ],
+    "cookingTimeMinutes": 20,
+    "servings": 2,
+    "difficulty": "Easy",
+    "tags": ["classic", "hearty"]
+  },
+  {
+    "id": "butter-chicken",
+    "name": "Creamy Butter Chicken",
+    "category": "dinner",
+    "image": "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=900&q=80",
+    "description": "Tender chicken simmered in a rich, spiced tomato-butter gravy.",
+    "ingredients": ["chicken breast", "yogurt", "tomato", "butter", "cream", "garlic", "ginger", "garam masala", "rice"],
+    "steps": [
+      "Marinate chicken in yogurt, garlic, ginger and spices for at least 30 minutes.",
+      "Grill or pan-sear the chicken until charred and cooked through.",
+      "In a pan, melt butter and cook tomato puree with garam masala until thick.",
+      "Stir in cream and simmer 5 minutes.",
+      "Add the cooked chicken to the sauce and simmer until warmed through.",
+      "Serve hot with steamed rice."
+    ],
+    "cookingTimeMinutes": 50,
+    "servings": 4,
+    "difficulty": "Medium",
+    "tags": ["spiced", "creamy", "crowd-pleaser"],
+    "popular": true,
+    "featured": true
+  },
+  {
+    "id": "beef-stir-fry",
+    "name": "Garlic Beef & Broccoli",
+    "category": "dinner",
+    "image": "https://images.unsplash.com/photo-1580959375944-abd7e991f971?w=900&q=80",
+    "description": "Thin-sliced beef and broccoli in a glossy garlic-soy sauce.",
+    "ingredients": ["beef", "broccoli", "garlic", "soy sauce", "cornstarch", "ginger", "rice"],
+    "steps": [
+      "Slice beef thinly against the grain and toss with cornstarch.",
+      "Sear beef in a hot pan until browned; set aside.",
+      "Stir-fry broccoli, garlic and ginger until crisp-tender.",
+      "Return beef to the pan, add soy sauce and toss to combine.",
+      "Serve over steamed rice."
+    ],
+    "cookingTimeMinutes": 30,
+    "servings": 3,
+    "difficulty": "Medium",
+    "tags": ["protein", "asian-inspired"]
+  },
+  {
+    "id": "margherita-pizza",
+    "name": "Homemade Margherita Pizza",
+    "category": "dinner",
+    "image": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=900&q=80",
+    "description": "A classic pizza with tomato sauce, fresh mozzarella and basil.",
+    "ingredients": ["pizza dough", "tomato sauce", "mozzarella cheese", "basil", "olive oil", "garlic"],
+    "steps": [
+      "Preheat oven to the highest setting with a pizza stone or tray inside.",
+      "Roll out the dough on a floured surface.",
+      "Spread tomato sauce mixed with a little garlic over the base.",
+      "Add torn mozzarella pieces evenly.",
+      "Bake 8-10 minutes until the crust is golden and cheese bubbles.",
+      "Finish with fresh basil leaves and a drizzle of olive oil."
+    ],
+    "cookingTimeMinutes": 40,
+    "servings": 4,
+    "difficulty": "Medium",
+    "tags": ["comfort-food", "vegetarian", "weekend"],
+    "popular": true,
+    "featured": true
+  },
+  {
+    "id": "grilled-salmon",
+    "name": "Herb-Grilled Salmon",
+    "category": "dinner",
+    "image": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=900&q=80",
+    "description": "Flaky salmon fillets grilled with lemon, garlic and fresh herbs.",
+    "ingredients": ["salmon", "lemon", "garlic", "olive oil", "dill", "salt", "black pepper"],
+    "steps": [
+      "Pat salmon fillets dry and rub with olive oil, garlic, salt and pepper.",
+      "Preheat grill or pan to medium-high heat.",
+      "Grill salmon skin-side down for 4-5 minutes.",
+      "Flip and cook another 3-4 minutes until just cooked through.",
+      "Garnish with fresh dill and a squeeze of lemon."
+    ],
+    "cookingTimeMinutes": 25,
+    "servings": 2,
+    "difficulty": "Medium",
+    "tags": ["seafood", "healthy", "high-protein"]
+  },
+  {
+    "id": "vegetable-biryani",
+    "name": "Fragrant Vegetable Biryani",
+    "category": "dinner",
+    "image": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=900&q=80",
+    "description": "Layered basmati rice and spiced vegetables cooked to fragrant perfection.",
+    "ingredients": ["basmati rice", "carrot", "potato", "peas", "onion", "yogurt", "biryani masala", "mint"],
+    "steps": [
+      "Parboil basmati rice with whole spices until 70% cooked; drain.",
+      "Sauté onions until golden, add vegetables and biryani masala, cook until tender.",
+      "Stir in yogurt and simmer briefly to form a thick masala.",
+      "Layer the rice over the vegetable masala in a heavy pot.",
+      "Top with mint, cover tightly and cook on low heat for 15 minutes.",
+      "Gently fluff and serve hot."
+    ],
+    "cookingTimeMinutes": 60,
+    "servings": 5,
+    "difficulty": "Hard",
+    "tags": ["spiced", "festive", "vegetarian"],
+    "featured": true
+  },
+  {
+    "id": "loaded-nachos",
+    "name": "Loaded Cheesy Nachos",
+    "category": "snacks",
+    "image": "https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?w=900&q=80",
+    "description": "Crunchy tortilla chips piled high with cheese, beans and salsa.",
+    "ingredients": ["tortilla chips", "cheese", "black beans", "tomato", "onion", "jalapeno", "sour cream"],
+    "steps": [
+      "Spread tortilla chips on a baking tray.",
+      "Scatter black beans and shredded cheese generously over the chips.",
+      "Bake at 200°C for 6-8 minutes until the cheese melts.",
+      "Top with diced tomato, onion, jalapeño and a dollop of sour cream."
+    ],
+    "cookingTimeMinutes": 15,
+    "servings": 3,
+    "difficulty": "Easy",
+    "tags": ["party", "cheesy", "quick"],
+    "popular": true
+  },
+  {
+    "id": "crispy-fries",
+    "name": "Crispy Golden Fries",
+    "category": "snacks",
+    "image": "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=900&q=80",
+    "description": "Twice-cooked potato fries, crunchy outside and fluffy inside.",
+    "ingredients": ["potato", "vegetable oil", "salt", "paprika"],
+    "steps": [
+      "Cut potatoes into even sticks and soak in cold water for 30 minutes.",
+      "Pat dry, then fry at a low temperature (150°C) until soft but pale.",
+      "Remove and let rest, then fry again at high temperature (190°C) until golden and crisp.",
+      "Toss with salt and paprika while hot."
+    ],
+    "cookingTimeMinutes": 45,
+    "servings": 3,
+    "difficulty": "Medium",
+    "tags": ["crispy", "party", "vegan"]
+  },
+  {
+    "id": "fruit-yogurt-parfait",
+    "name": "Berry Yogurt Parfait",
+    "category": "snacks",
+    "image": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=900&q=80",
+    "description": "Layers of creamy yogurt, granola and fresh berries.",
+    "ingredients": ["yogurt", "granola", "strawberry", "blueberry", "honey"],
+    "steps": [
+      "Spoon a layer of yogurt into a glass.",
+      "Add a layer of granola, then a layer of mixed berries.",
+      "Repeat the layers until the glass is full.",
+      "Drizzle with honey before serving."
+    ],
+    "cookingTimeMinutes": 10,
+    "servings": 1,
+    "difficulty": "Easy",
+    "tags": ["healthy", "no-cook", "kid-friendly"]
+  },
+  {
+    "id": "chocolate-lava-cake",
+    "name": "Molten Chocolate Lava Cake",
+    "category": "desserts",
+    "image": "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=900&q=80",
+    "description": "Rich chocolate cake with a warm, gooey molten centre.",
+    "ingredients": ["dark chocolate", "butter", "eggs", "sugar", "flour", "vanilla extract"],
+    "steps": [
+      "Melt dark chocolate and butter together until smooth.",
+      "Whisk eggs and sugar until pale and thick, then fold into the chocolate mixture.",
+      "Gently fold in flour and vanilla extract.",
+      "Pour into greased ramekins and bake at 200°C for 10-12 minutes.",
+      "Let rest 1 minute, then invert onto a plate and serve immediately."
+    ],
+    "cookingTimeMinutes": 30,
+    "servings": 4,
+    "difficulty": "Medium",
+    "tags": ["chocolate", "romantic", "showstopper"],
+    "popular": true,
+    "featured": true
+  },
+  {
+    "id": "classic-tiramisu",
+    "name": "Classic Tiramisu",
+    "category": "desserts",
+    "image": "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=900&q=80",
+    "description": "Espresso-soaked ladyfingers layered with a silky mascarpone cream.",
+    "ingredients": ["ladyfingers", "mascarpone cheese", "eggs", "sugar", "espresso", "cocoa powder"],
+    "steps": [
+      "Whisk egg yolks and sugar until pale, then fold in mascarpone until smooth.",
+      "Whip egg whites to soft peaks and fold gently into the mascarpone mixture.",
+      "Quickly dip ladyfingers in cooled espresso and layer in a dish.",
+      "Spread half the mascarpone cream over the layer; repeat with a second layer.",
+      "Dust generously with cocoa powder and chill at least 4 hours before serving."
+    ],
+    "cookingTimeMinutes": 40,
+    "servings": 6,
+    "difficulty": "Hard",
+    "tags": ["make-ahead", "coffee", "italian"]
+  },
+  {
+    "id": "banana-bread",
+    "name": "Moist Banana Bread",
+    "category": "desserts",
+    "image": "https://images.unsplash.com/photo-1605286658859-4b6b5e5e4b8f?w=900&q=80",
+    "description": "A soft, moist loaf made with ripe bananas and warm cinnamon.",
+    "ingredients": ["banana", "flour", "eggs", "sugar", "butter", "baking soda", "cinnamon"],
+    "steps": [
+      "Mash ripe bananas in a large bowl.",
+      "Beat in melted butter, eggs and sugar until combined.",
+      "Fold in flour, baking soda and cinnamon until just mixed.",
+      "Pour into a greased loaf tin and bake at 175°C for 50-55 minutes.",
+      "Cool in the tin for 10 minutes before slicing."
+    ],
+    "cookingTimeMinutes": 65,
+    "servings": 8,
+    "difficulty": "Easy",
+    "tags": ["baking", "make-ahead", "kid-friendly"]
+  }
+]

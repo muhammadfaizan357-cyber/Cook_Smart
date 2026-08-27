@@ -1,0 +1,114 @@
+<cs-hero-slider [slides]="heroSlides" height="620px"></cs-hero-slider>
+
+
+
+<!-- Featured Recipes -->
+<section class="section">
+  <div class="container">
+    <div class="section-head" csReveal>
+      <span class="eyebrow">Handpicked</span>
+      <h2 class="section-title">Featured Recipes</h2>
+      <hr class="divider-gold" />
+      <p class="section-sub">A curated selection worth cooking this week.</p>
+    </div>
+
+    @if (loading) {
+      <cs-loading-skeleton [count]="4"></cs-loading-skeleton>
+    } @else {
+      <div class="grid-cards">
+        @for (r of featuredRecipes; track r.id; let i = $index) {
+          <div csReveal [csRevealDelay]="i * 90">
+            <cs-recipe-card [recipe]="r"></cs-recipe-card>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Categories quick access -->
+<section class="section section--band">
+  <div class="container">
+    <div class="section-head" csReveal>
+      <span class="eyebrow">Browse by Mood</span>
+      <h2 class="section-title">Categories</h2>
+      <hr class="divider-gold" />
+      <p class="section-sub">Jump straight to what you're craving.</p>
+    </div>
+    <div class="grid-cards grid-cards--categories">
+      @for (c of categories; track c.id; let i = $index) {
+        <div csReveal="scale" [csRevealDelay]="i * 80">
+          <cs-category-card [category]="c"></cs-category-card>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Popular recipes -->
+<section class="section">
+  <div class="container">
+    <div class="section-head" csReveal>
+      <span class="eyebrow">Trending Now</span>
+      <h2 class="section-title">Popular Recipes</h2>
+      <hr class="divider-gold" />
+      <p class="section-sub">The dishes everyone keeps coming back to.</p>
+    </div>
+
+    @if (loading) {
+      <cs-loading-skeleton [count]="6"></cs-loading-skeleton>
+    } @else {
+      <div class="grid-cards">
+        @for (r of popularRecipes; track r.id; let i = $index) {
+          <div csReveal [csRevealDelay]="i * 70">
+            <cs-recipe-card [recipe]="r"></cs-recipe-card>
+          </div>
+        }
+      </div>
+    }
+
+    <div class="text-center" style="margin-top: 40px" csReveal>
+      <a routerLink="/recipes" class="btn btn-outline">View Full Recipe Library →</a>
+    </div>
+  </div>
+</section>
+
+<!-- AI CTA -->
+<section class="section ai-cta">
+  <div class="container ai-cta__inner" csReveal="scale">
+    <div>
+      <span class="eyebrow eyebrow--light">AI-Assisted</span>
+      <h2>Not sure what to cook? Let AI suggest it.</h2>
+      <p>Tell us what's in your fridge — our ingredient-matching engine finds the best-fitting recipes instantly.</p>
+      <a routerLink="/ai-suggestion" class="btn btn-primary">Get AI Suggestions →</a>
+    </div>
+    <div class="ai-cta__art">
+      <div class="ai-cta__badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.5-.8 2.8-2 3.5V11h2a3 3 0 0 1 3 3v1a2 2 0 0 1-2 2h-1v3a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-3H5a2 2 0 0 1-2-2v-1a3 3 0 0 1 3-3h2V9.5C6.8 8.8 6 7.5 6 6a4 4 0 0 1 6-3.46V2z"/><circle cx="9" cy="15" r="1"/><circle cx="15" cy="15" r="1"/></svg>
+        <span>CookSmart AI Engine</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tips preview -->
+<section class="section">
+  <div class="container">
+    <div class="section-head" csReveal>
+      <span class="eyebrow">Learn As You Cook</span>
+      <h2 class="section-title">Cooking Tips</h2>
+      <hr class="divider-gold" />
+      <p class="section-sub">Small techniques that make a big difference.</p>
+    </div>
+    <div class="grid-cards">
+      @for (t of featuredTips; track t.id; let i = $index) {
+        <div csReveal [csRevealDelay]="i * 80">
+          <cs-tip-card [tip]="t"></cs-tip-card>
+        </div>
+      }
+    </div>
+    <div class="text-center" style="margin-top: 36px" csReveal>
+      <a routerLink="/tips" class="btn btn-outline">See All Tips & Videos →</a>
+    </div>
+  </div>
+</section>

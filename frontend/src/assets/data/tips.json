@@ -1,0 +1,86 @@
+[
+  {
+    "id": "tip-nonstick-pan",
+    "title": "Get the Perfect Pancake Flip",
+    "category": "breakfast",
+    "type": "video",
+    "image": "https://images.unsplash.com/photo-1528207776546-365bb710ee93?w=900&q=80",
+    "videoUrl": "https://www.youtube.com/embed/O1dflT5kSAI",
+    "content": "Wait for bubbles to form and pop across the surface before flipping — that's when the underside is set.",
+    "featured": true
+  },
+  {
+    "id": "tip-knife-skills",
+    "title": "Basic Knife Skills for Faster Prep",
+    "category": "general",
+    "type": "video",
+    "image": "https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=900&q=80",
+    "videoUrl": "https://www.youtube.com/embed/YrHpeEwk_-U",
+    "content": "Curl your fingertips under (the 'claw grip') to guide the knife safely while chopping.",
+    "featured": true
+  },
+  {
+    "id": "tip-season-in-layers",
+    "title": "Season In Layers, Not At the End",
+    "category": "dinner",
+    "type": "video",
+    "image": "https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?w=900&q=80",
+    "videoUrl": "https://www.youtube.com/embed/l9hUGbg0Ljo",
+    "content": "Add a little salt at each cooking stage rather than all at once — it builds deeper, more balanced flavour.",
+    "featured": true
+  },
+  {
+    "id": "tip-rest-meat",
+    "title": "Always Rest Your Meat",
+    "category": "dinner",
+    "type": "video",
+    "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=900&q=80",
+    "videoUrl": "https://www.youtube.com/embed/RJohoiGPSRw",
+    "content": "Let grilled or roasted meat rest for 5-10 minutes before cutting so the juices redistribute instead of spilling out."
+  },
+  {
+    "id": "tip-freeze-herbs",
+    "title": "Freeze Fresh Herbs in Olive Oil",
+    "category": "general",
+    "type": "video",
+    "image": "https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=900&q=80",
+    "videoUrl": "https://www.youtube.com/embed/eX-0vjwnmWo",
+    "content": "Chop leftover herbs, pack into an ice tray, cover with olive oil and freeze — instant flavour cubes for later."
+  },
+  {
+    "id": "tip-ripen-fruit",
+    "title": "Ripen Bananas Faster",
+    "category": "desserts",
+    "type": "video",
+    "image": "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=900&q=80",
+    "videoUrl": "https://www.youtube.com/embed/U15uN8esy8Y",
+    "content": "Place bananas in a paper bag with an apple overnight to speed up ripening for banana bread."
+  },
+  {
+    "id": "tip-crispy-fries",
+    "title": "Why Double-Frying Makes Crispier Fries",
+    "category": "snacks",
+    "type": "video",
+    "image": "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=900&q=80",
+    "videoUrl": "https://www.youtube.com/embed/vEx6O_26Hrg",
+    "content": "The first fry cooks the potato through; the second, hotter fry crisps the outside without burning it."
+  },
+  {
+    "id": "tip-soup-blend",
+    "title": "Blend Soups Safely",
+    "category": "lunch",
+    "type": "video",
+    "image": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=900&q=80",
+    "videoUrl": "https://www.youtube.com/embed/2rZESNlkR6E",
+    "content": "Let hot soup cool slightly and blend in small batches, venting the lid, to avoid dangerous steam pressure."
+  },
+  {
+    "id": "tip-fluffy-rice",
+    "title": "How to Cook Fluffy Rice Every Time",
+    "category": "lunch",
+    "type": "video",
+    "image": "https://images.unsplash.com/photo-1516684732162-798a0062be99?w=900&q=80",
+    "videoUrl": "https://www.youtube.com/embed/xhyMPNVL8X4",
+    "content": "Rinse rice until water runs clear to remove surface starch, then let it steam undisturbed for 15 minutes."
+  }
+]

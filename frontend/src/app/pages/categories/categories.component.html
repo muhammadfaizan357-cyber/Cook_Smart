@@ -1,0 +1,28 @@
+<cs-hero-slider [slides]="heroSlides" height="520px"></cs-hero-slider>
+
+<section class="section">
+  <div class="container">
+    <div class="grid-cards grid-cards--categories" style="margin-bottom: 60px">
+      @for (c of categories; track c.id; let i = $index) {
+        <div csReveal="scale" [csRevealDelay]="i * 90">
+          <cs-category-card [category]="c"></cs-category-card>
+        </div>
+      }
+    </div>
+
+    @for (c of categories; track c.id) {
+      <div class="category-showcase" csReveal>
+        <div class="category-showcase__head">
+          <h3>{{ c.name }} <span class="text-muted">({{ countFor(c.id) }} recipes)</span></h3>
+        </div>
+        <div class="category-showcase__strip">
+          @for (r of showcaseFor(c.id); track r.id) {
+            <a [routerLink]="['/recipes', r.id]" class="strip-item" [style.backgroundImage]="'url(' + r.image + ')'">
+              <span>{{ r.name }}</span>
+            </a>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</section>

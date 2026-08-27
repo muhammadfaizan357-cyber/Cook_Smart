@@ -1,0 +1,142 @@
+@if (notFound) {
+  <div class="container not-found">
+    <h2>Recipe not found</h2>
+    <a routerLink="/recipes" class="btn btn-primary">Back to Recipes</a>
+  </div>
+} @else if (recipe) {
+  <section class="details-hero" [style.backgroundImage]="'url(' + images[activeImage] + ')'">
+    <div class="details-hero__overlay"></div>
+    <div class="container details-hero__content">
+      <span class="badge badge-royal">{{ recipe.category }}</span>
+      <h1>{{ recipe.name }}</h1>
+      <p>{{ recipe.description }}</p>
+      <div class="details-hero__meta">
+        <span class="meta-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          {{ recipe.cookingTimeMinutes }} min
+        </span>
+        <span class="meta-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          {{ recipe.servings }} servings
+        </span>
+        <span class="badge" [ngClass]="'badge-' + recipe.difficulty.toLowerCase()">{{ recipe.difficulty }}</span>
+      </div>
+    </div>
+
+    @if (images.length > 1) {
+      <div class="details-hero__thumbs">
+        @for (img of images; track img; let i = $index) {
+          <button
+            class="details-hero__thumb"
+            [class.is-active]="i === activeImage"
+            [style.backgroundImage]="'url(' + img + ')'"
+            (click)="activeImage = i"
+            [attr.aria-label]="'View image ' + (i + 1) + ' of ' + images.length"
+          ></button>
+        }
+      </div>
+    }
+  </section>
+
+  <section class="section">
+
+    <!-- Action Buttons + Side Tips row -->
+    <div class="container details-grid">
+      <div class="details-main" csReveal="left">
+        <div class="details-actions">
+          <button class="btn btn-outline details-btn-icon" (click)="toggleFavourite()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="action-icon">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" [attr.fill]="fav.isFavourite(recipe.id) ? 'currentColor' : 'none'"/>
+            </svg>
+            {{ fav.isFavourite(recipe.id) ? 'Remove from Favourites' : 'Add to Favourites' }}
+          </button>
+          <div class="planner-add">
+            <button class="btn btn-royal details-btn-icon" (click)="showPlannerModal = !showPlannerModal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="action-icon">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              Add to Meal Planner
+            </button>
+            @if (showPlannerModal) {
+              <div class="planner-popover">
+                @for (d of days; track d) {
+                  <div class="planner-popover__row">
+                    <span>{{ d }}</span>
+                    @for (m of meals; track m) {
+                      <button class="chip" (click)="assignToPlanner(d, m)">{{ m }}</button>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <aside class="details-side" csReveal="right">
+        @if (relatedTips.length > 0) {
+          <div class="side-block">
+            <h4>Tips for This Recipe</h4>
+            @for (tip of relatedTips; track tip.id) {
+              <cs-tip-card [tip]="tip"></cs-tip-card>
+            }
+          </div>
+        }
+      </aside>
+    </div>
+
+    <!-- Full-width 2-Column Ingredients & Steps -->
+    <div class="container prep-section" csReveal>
+      <div class="recipe-prep-grid">
+        <!-- Column 1: Ingredients -->
+        <div class="prep-card prep-card--ingredients">
+          <div class="prep-card__head">
+            <h3>Ingredients</h3>
+            <span class="prep-badge">{{ recipe.ingredients.length }} items</span>
+          </div>
+          <p class="prep-card__hint">Tap items as you prepare them:</p>
+          <ul class="ingredient-list">
+            @for (ing of recipe.ingredients; track ing) {
+              <li (click)="toggleIngredient(ing)" [class.checked]="isChecked(ing)">
+                <span class="ingredient-list__box">{{ isChecked(ing) ? '✓' : '' }}</span>
+                <span class="ingredient-list__text">{{ ing }}</span>
+              </li>
+            }
+          </ul>
+        </div>
+
+        <!-- Column 2: Preparation Steps -->
+        <div class="prep-card prep-card--steps">
+          <div class="prep-card__head">
+            <h3>Preparation Steps</h3>
+            <span class="prep-badge prep-badge--gold">{{ recipe.steps.length }} steps</span>
+          </div>
+          <p class="prep-card__hint">Follow along step by step:</p>
+          <ol class="steps-list">
+            @for (step of recipe.steps; track step; let i = $index) {
+              <li>
+                <span class="steps-list__num">{{ i + 1 }}</span>
+                <p>{{ step }}</p>
+              </li>
+            }
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    @if (relatedRecipes.length > 0) {
+      <div class="container">
+        <div class="section-head" csReveal>
+          <span class="eyebrow">You Might Also Like</span>
+          <h2 class="section-title">Related Recipes</h2>
+          <hr class="divider-gold" />
+        </div>
+        <div class="grid-cards">
+          @for (r of relatedRecipes; track r.id) {
+            <cs-recipe-card [recipe]="r"></cs-recipe-card>
+          }
+        </div>
+      </div>
+    }
+  </section>
+}

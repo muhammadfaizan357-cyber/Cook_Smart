@@ -1,0 +1,31 @@
+<a href="javascript:void(0)" (click)="onCardClick($event)" class="recipe-card cs-card">
+  <div class="recipe-card__media">
+    <img [src]="recipe.image" [alt]="recipe.name" loading="lazy" />
+    <button class="recipe-card__fav" [class.is-active]="fav.isFavourite(recipe.id)" (click)="toggleFavourite($event)" aria-label="Toggle favourite">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" [attr.fill]="fav.isFavourite(recipe.id) ? 'currentColor' : 'none'"/>
+      </svg>
+    </button>
+    <span class="badge recipe-card__category">{{ recipe.category }}</span>
+    @if (matchPercent !== undefined) {
+      <span class="recipe-card__match">{{ matchPercent }}% match</span>
+    }
+  </div>
+
+  <div class="recipe-card__body">
+    <h4>{{ recipe.name }}</h4>
+    <p class="recipe-card__desc">{{ recipe.description }}</p>
+
+    <div class="recipe-card__ingredients">
+      {{ recipe.ingredients.slice(0, 3).join(', ') }}{{ recipe.ingredients.length > 3 ? '…' : '' }}
+    </div>
+
+    <div class="recipe-card__meta">
+      <span class="recipe-card__time">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        {{ recipe.cookingTimeMinutes }} min
+      </span>
+      <span class="badge" [ngClass]="difficultyClass()">{{ recipe.difficulty }}</span>
+    </div>
+  </div>
+</a>

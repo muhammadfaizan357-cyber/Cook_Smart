@@ -1,0 +1,40 @@
+<cs-hero-slider [slides]="heroSlides" height="520px"></cs-hero-slider>
+
+<section class="section">
+  <div class="container">
+    @if (featuredTips.length > 0) {
+      <div class="section-head" csReveal>
+        <span class="eyebrow">Featured</span>
+        <h2 class="section-title">Top Picks This Week</h2>
+        <hr class="divider-gold" />
+      </div>
+      <div class="grid-cards" style="margin-bottom: 56px">
+        @for (t of featuredTips; track t.id; let i = $index) {
+          <div csReveal [csRevealDelay]="i * 80">
+            <cs-tip-card [tip]="t"></cs-tip-card>
+          </div>
+        }
+      </div>
+    }
+
+    <div class="section-head" csReveal>
+      <span class="eyebrow">Browse All</span>
+      <h2 class="section-title">All Tips &amp; Videos</h2>
+      <hr class="divider-gold" />
+    </div>
+
+    <div class="tips-filter" csReveal>
+      @for (f of filters; track f) {
+        <button class="chip" [class.active]="activeFilter === f" (click)="setFilter(f)">{{ f }}</button>
+      }
+    </div>
+
+    <div class="grid-cards">
+      @for (t of filteredTips; track t.id; let i = $index) {
+        <div csReveal [csRevealDelay]="(i % 6) * 70">
+          <cs-tip-card [tip]="t"></cs-tip-card>
+        </div>
+      }
+    </div>
+  </div>
+</section>

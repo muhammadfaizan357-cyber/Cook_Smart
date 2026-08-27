@@ -1,0 +1,34 @@
+<!-- Fullscreen Splash Preloader based on CookSmart Logo -->
+@if (showSplash()) {
+  <cs-splash-loader
+    [message]="splashMessage()"
+    [subMessage]="splashSubMessage()"
+    (completed)="onSplashComplete()"
+  ></cs-splash-loader>
+}
+
+<!-- Global Auth Modal (Login / Register / Admin) -->
+<cs-auth-modal></cs-auth-modal>
+
+<!-- Post-Login / Post-Signup Taste Preference Modal -->
+@if (auth.showTastePreferenceModal()) {
+  <cs-onboarding-modal (completed)="onTastePreferenceCompleted($event)"></cs-onboarding-modal>
+}
+
+<!-- Global Navbar (Only on public/user pages, hidden on executive Admin Dashboard) -->
+@if (!isAdminRoute()) {
+  <cs-navbar></cs-navbar>
+}
+
+<main class="route-fade" [class.main--admin]="isAdminRoute()">
+  <router-outlet></router-outlet>
+</main>
+
+@if (!isAdminRoute()) {
+  <cs-footer></cs-footer>
+}
+
+<cs-toast></cs-toast>
+
+<!-- Global VIP Media Modal (Video Popups & Category Image Lightboxes) -->
+<cs-media-modal></cs-media-modal>

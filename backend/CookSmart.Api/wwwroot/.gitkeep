@@ -1,0 +1,4 @@
+# The Angular production build ("ng build" output from /frontend/dist/cooksmart/browser)
+# gets copied here so the whole SPA can optionally be served by this single API process.
+# Not required for development — during development just run `ng serve` and `dotnet run`
+# side by side (see README).

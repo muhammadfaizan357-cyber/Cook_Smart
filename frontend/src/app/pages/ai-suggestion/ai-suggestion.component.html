@@ -1,0 +1,65 @@
+<cs-hero-slider [slides]="heroSlides" height="500px"></cs-hero-slider>
+
+<section class="section ai-search-section">
+  <div class="container">
+    <div class="ai-search-card cs-card" csReveal="scale">
+      <span class="eyebrow">Smart Matching</span>
+      <h2>What's in Your Kitchen Today?</h2>
+      <p>Suggest suitable recipes based on ingredients entered by the user.</p>
+
+      <div class="ai-input-row">
+        <label for="ai-ingredients-input" class="visually-hidden">Ingredients you have</label>
+        <input
+          id="ai-ingredients-input"
+          type="text"
+          [(ngModel)]="ingredientsInput"
+          (keyup.enter)="suggest()"
+          placeholder="e.g. eggs, tomato, onion, cheese, chicken"
+        />
+        <button class="btn btn-primary" (click)="suggest()" [disabled]="!ingredientsInput.trim() || isProcessing">
+          Suggest Recipes
+        </button>
+      </div>
+
+      <div class="ai-chips">
+        <span class="ai-chips__label">Quick Try:</span>
+        @for (chip of quickChips; track chip) {
+          <button class="chip" (click)="useChip(chip)">{{ chip }}</button>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+
+    @if (isProcessing) {
+      <div class="ai-loading" csReveal>
+        <div class="ai-loading__spinner"></div>
+        <p>Analysing your ingredients against the recipe library…</p>
+      </div>
+    } @else if (hasSearched && results.length === 0) {
+      <div class="empty-state" csReveal="scale">
+        <div class="empty-state__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3>No close matches found</h3>
+        <p>Try a different combination, or check the spelling of your ingredients.</p>
+      </div>
+    } @else if (results.length > 0) {
+      <div class="section-head" csReveal>
+        <span class="eyebrow">Best Matches</span>
+        <h2 class="section-title">Suggested Recipes</h2>
+        <hr class="divider-gold" />
+      </div>
+      <div class="grid-cards">
+        @for (res of results; track res.recipe.id; let i = $index) {
+          <div csReveal [csRevealDelay]="i * 90">
+            <cs-recipe-card [recipe]="res.recipe" [matchPercent]="res.matchPercent"></cs-recipe-card>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>

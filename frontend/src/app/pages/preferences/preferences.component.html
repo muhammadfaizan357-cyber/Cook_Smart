@@ -1,0 +1,51 @@
+<section class="section pref-page">
+  <div class="container pref-page__inner">
+    <div class="pref-card" csReveal="scale">
+      <span class="eyebrow">Personalise</span>
+      <h2 class="section-title">Tell Us About You</h2>
+      <p class="section-sub">Just two quick things — we'll use them to personalise your CookSmart experience.</p>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        <div class="field" [class.has-error]="submitted && f.firstName.invalid">
+          <label for="firstName">First Name</label>
+          <input id="firstName" type="text" formControlName="firstName" placeholder="e.g. Ayesha" />
+          @if (submitted && f.firstName.errors?.['required']) {
+            <div class="field-error">Please tell us your first name.</div>
+          }
+          @if (submitted && f.firstName.errors?.['minlength']) {
+            <div class="field-error">Name should be at least 2 characters.</div>
+          }
+        </div>
+
+        <div class="field" [class.has-error]="submitted && f.preferredCategory.invalid">
+          <label>Preferred Recipe Category</label>
+          <div class="pref-category-grid">
+            @for (c of categories; track c.id) {
+              <button
+                type="button"
+                class="chip pref-chip"
+                [class.active]="f.preferredCategory.value === c.id"
+                (click)="selectCategory(c.id)"
+              >
+                {{ c.name }}
+              </button>
+            }
+          </div>
+          @if (submitted && f.preferredCategory.errors?.['required']) {
+            <div class="field-error">Please pick a category you love.</div>
+          }
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Save &amp; Continue</button>
+      </form>
+    </div>
+
+    <div class="pref-art" csReveal="right">
+      <div class="pref-art__card">
+        <img src="assets/images/cooksmart-logo.png" alt="CookSmart Logo" class="pref-art__logo" />
+        <h4>Your Personal Chef</h4>
+        <p class="text-muted text-center">Settings saved securely on your device. Never uploaded to any external server.</p>
+      </div>
+    </div>
+  </div>
+</section>

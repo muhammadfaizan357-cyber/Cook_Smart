@@ -1,0 +1,26 @@
+<div class="hero-slider" [style.height]="height">
+  @for (slide of slides; track slide.image; let i = $index) {
+    <div class="hero-slide" [class.is-active]="i === active" [style.backgroundImage]="'url(' + slide.image + ')'">
+      <div class="hero-slide__overlay"></div>
+      <div class="container hero-slide__content">
+        @if (slide.eyebrow) { <span class="eyebrow eyebrow--light">{{ slide.eyebrow }}</span> }
+        <h1>{{ slide.title }}</h1>
+        @if (slide.subtitle) { <p>{{ slide.subtitle }}</p> }
+        @if (slide.ctaLabel && slide.ctaLink) {
+          <a [routerLink]="slide.ctaLink" class="btn btn-primary">{{ slide.ctaLabel }}</a>
+        }
+      </div>
+    </div>
+  }
+
+  @if (slides.length > 1) {
+    <button class="hero-slider__nav hero-slider__nav--prev" (click)="prev()" aria-label="Previous slide">&#8249;</button>
+    <button class="hero-slider__nav hero-slider__nav--next" (click)="next()" aria-label="Next slide">&#8250;</button>
+
+    <div class="hero-slider__dots">
+      @for (slide of slides; track slide.image; let i = $index) {
+        <button class="hero-slider__dot" [class.is-active]="i === active" (click)="goTo(i)" [attr.aria-label]="'Go to slide ' + (i + 1)"></button>
+      }
+    </div>
+  }
+</div>

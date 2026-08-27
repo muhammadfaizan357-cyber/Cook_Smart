@@ -1,0 +1,64 @@
+<cs-hero-slider [slides]="heroSlides" height="500px"></cs-hero-slider>
+
+<section class="section planner-page">
+  <div class="container">
+    <div class="section-head" csReveal>
+      <span class="eyebrow">Plan Ahead</span>
+      <h2 class="section-title">Weekly Meal Planner</h2>
+      <hr class="divider-gold" />
+      <p class="section-sub">Tap any empty slot to assign a recipe. Saved automatically on this device.</p>
+    </div>
+
+    <div class="planner-toolbar" csReveal>
+      <button class="btn btn-outline btn-sm planner-clear-btn" (click)="clearAll()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;margin-right:6px"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        Clear Planner
+      </button>
+    </div>
+
+    <div class="planner-grid" csReveal="scale">
+      <div class="planner-grid__corner"></div>
+      @for (m of meals; track m) {
+        <div class="planner-grid__meal-head">{{ m }}</div>
+      }
+
+      @for (d of days; track d) {
+        <div class="planner-grid__day-head">{{ d }}</div>
+        @for (m of meals; track m) {
+          <div class="planner-cell" (click)="openSlot(d, m)">
+            @if (recipeById(planner.grid()[d][m]); as r) {
+              <div class="planner-cell__filled" [style.backgroundImage]="'url(' + r.image + ')'">
+                <span>{{ r.name }}</span>
+                <button class="planner-cell__remove" (click)="removeSlot(d, m, $event)" aria-label="Remove">✕</button>
+              </div>
+            } @else {
+              <div class="planner-cell__empty">+ Add</div>
+            }
+          </div>
+        }
+      }
+    </div>
+  </div>
+</section>
+
+@if (activeSlot) {
+  <div class="modal-backdrop" (click)="closeSlot()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+      <div class="modal-panel__head">
+        <h4>Choose a recipe for {{ activeSlot.day }} — {{ activeSlot.meal }}</h4>
+        <button (click)="closeSlot()" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-panel__list">
+        @for (r of recipes; track r.id) {
+          <button class="modal-recipe-row" (click)="assign(r.id)">
+            <span class="modal-recipe-row__img" [style.backgroundImage]="'url(' + r.image + ')'"></span>
+            <span>
+              <strong>{{ r.name }}</strong>
+              <small>{{ r.category }} · {{ r.cookingTimeMinutes }} min</small>
+            </span>
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+}

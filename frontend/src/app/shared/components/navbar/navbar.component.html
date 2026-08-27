@@ -1,0 +1,93 @@
+<header class="navbar" [class.navbar--scrolled]="scrolled()">
+  <div class="container navbar__inner">
+    <a routerLink="/" class="navbar__brand" (click)="closeMenu()">
+      <img src="assets/images/cooksmart-logo.png" alt="CookSmart Logo" class="navbar__logo-img" />
+    </a>
+
+    <nav class="navbar__links" [class.navbar__links--open]="menuOpen()">
+      @for (link of links; track link.path) {
+        <a
+          [routerLink]="link.path"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+          (click)="closeMenu()"
+        >{{ link.label }}</a>
+      }
+
+      <!-- Auth State: Guest -->
+      @if (!auth.isLoggedIn()) {
+        <button class="navbar__auth-btn" (click)="openLogin()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;margin-right:5px;display:inline-block;vertical-align:middle">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+            <polyline points="10 17 15 12 10 7"/>
+            <line x1="15" y1="12" x2="3" y2="12"/>
+          </svg>
+          Sign In
+        </button>
+      }
+
+      <!-- Auth State: Logged In -->
+      @if (auth.isLoggedIn()) {
+        <div class="user-dropdown-wrap">
+          <button class="navbar__user-btn" (click)="toggleUserMenu($event)">
+            @if (auth.currentUser()?.avatar) {
+              <img
+                [src]="auth.currentUser()?.avatar"
+                [alt]="auth.currentUser()?.name || 'User'"
+                class="navbar__user-avatar"
+              />
+            } @else {
+              <span class="navbar__user-initials">
+                {{ getUserInitials(auth.currentUser()?.name) }}
+              </span>
+            }
+
+            <span class="navbar__user-name">{{ (auth.currentUser()?.name?.split(' ') ?? [''])[0] }}</span>
+
+            @if (auth.isAdmin()) {
+              <span class="navbar__admin-badge">Admin</span>
+            }
+
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+
+          @if (userMenuOpen()) {
+            <div class="user-dropdown">
+              @if (auth.isAdmin()) {
+                <a routerLink="/admin" class="user-dropdown-item user-dropdown-item--admin" (click)="closeMenu()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  Admin Dashboard
+                </a>
+              }
+              @if (!auth.isAdmin()) {
+                <a routerLink="/user/dashboard" class="user-dropdown-item" (click)="closeMenu()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                  My Dashboard
+                </a>
+                <a routerLink="/favourites" class="user-dropdown-item" (click)="closeMenu()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  Saved Recipes
+                </a>
+                <a routerLink="/preferences" class="user-dropdown-item" (click)="closeMenu()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                  Preferences
+                </a>
+              }
+              <div class="dropdown-divider"></div>
+              <button class="user-dropdown-item user-dropdown-item--logout" (click)="logout()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Logout
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </nav>
+
+    <button class="navbar__burger" [class.is-open]="menuOpen()" (click)="toggleMenu()" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>

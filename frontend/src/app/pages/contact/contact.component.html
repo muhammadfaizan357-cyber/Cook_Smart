@@ -1,0 +1,187 @@
+<cs-hero-slider [slides]="heroSlides" height="500px"></cs-hero-slider>
+
+<section class="section contact-section">
+  <div class="container">
+
+    @if (!auth.isLoggedIn()) {
+      <!-- Not Logged In — Elegant Gate -->
+      <div class="contact-gate" csReveal="scale">
+        <div class="gate-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <span class="badge badge-gold">Members Only</span>
+        <h2>Sign In to Contact CookSmart</h2>
+        <p>Our contact portal is exclusive to registered members. Please log in to reach out to our culinary team, share feedback, or request a recipe feature.</p>
+        <div class="gate-actions">
+          <button class="btn btn-primary" (click)="auth.openAuthModal('login', '/contact')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            Sign In to Continue
+          </button>
+        </div>
+      </div>
+    } @else {
+
+      <div class="contact-layout">
+
+        <!-- LEFT: Premium Form -->
+        <div class="contact-card" csReveal="left">
+          <div class="contact-card__head">
+            <span class="badge badge-gold">Direct Line</span>
+            <h2>Send Us a Message</h2>
+            <p>Our culinary team personally reviews each message — expect a response within 24 hours.</p>
+          </div>
+
+          <!-- Topic Selector -->
+          <div class="topic-selector">
+            <label class="field-label">Select Topic</label>
+            <div class="topic-pills">
+              @for (t of topics; track t) {
+                <button
+                  type="button"
+                  class="topic-pill"
+                  [class.active]="selectedTopic === t"
+                  (click)="setTopic(t)"
+                >{{ t }}</button>
+              }
+            </div>
+          </div>
+
+          @if (showSuccess) {
+            <div class="success-banner" csReveal="scale">
+              <div class="success-banner__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div>
+                <strong>Message Sent!</strong>
+                <p>Thank you for reaching out. We'll be in touch shortly.</p>
+              </div>
+            </div>
+          }
+
+          <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="contact-form">
+            <div class="form-row-2">
+              <!-- Name -->
+              <div class="field-modern" [class.has-error]="submitted && f.name.invalid">
+                <label class="field-label">Full Name <span class="required">*</span></label>
+                <div class="input-wrap">
+                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  <input id="name" type="text" formControlName="name" placeholder="e.g. Sarah Jenkins" />
+                </div>
+                @if (submitted && f.name.invalid) {<div class="field-error">Full name is required.</div>}
+              </div>
+              <!-- Email -->
+              <div class="field-modern" [class.has-error]="submitted && f.email.invalid">
+                <label class="field-label">Email Address <span class="required">*</span></label>
+                <div class="input-wrap">
+                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  <input id="email" type="email" formControlName="email" placeholder="you@example.com" />
+                </div>
+                @if (submitted && f.email.errors?.['required']) {<div class="field-error">Email is required.</div>}
+                @if (submitted && f.email.errors?.['email']) {<div class="field-error">Enter a valid email address.</div>}
+              </div>
+            </div>
+
+            <!-- Message -->
+            <div class="field-modern" [class.has-error]="submitted && f.message.invalid">
+              <label class="field-label">Your Message <span class="required">*</span></label>
+              <div class="textarea-wrap">
+                <svg class="textarea-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <textarea formControlName="message" rows="5" placeholder="Tell us about your idea, recipe request, or feedback…"></textarea>
+              </div>
+              @if (submitted && f.message.invalid) {<div class="field-error">Message must be at least 10 characters.</div>}
+            </div>
+
+            <!-- Experience Rating -->
+            <div class="rating-field">
+              <label class="field-label">Rate Your CookSmart Experience</label>
+              <div class="star-row">
+                @for (star of [1, 2, 3, 4, 5]; track star) {
+                  <button type="button" class="star-btn" [class.lit]="f.rating.value >= star" (click)="f.rating.setValue(star)" [attr.aria-label]="'Rate ' + star + ' star'">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+                  </button>
+                }
+                <span class="rating-label">{{ ratingLabels[f.rating.value] }}</span>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-submit" [disabled]="isSubmitting">
+              @if (isSubmitting) {
+                <span class="spinner"></span> Sending…
+              } @else {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Send Message
+              }
+            </button>
+          </form>
+        </div>
+
+        <!-- RIGHT: Info Aside -->
+        <aside class="contact-aside" csReveal="right">
+
+          <!-- Reach Us Info Cards -->
+          <div class="contact-info-card">
+            <div class="info-card__head">
+              <div class="info-card__icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <h4>Studio Address</h4>
+                <p>42 Saffron Lane, Culinary District<br/>London, UK · EC4A 1AB</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="info-card__head">
+              <div class="info-card__icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div>
+                <h4>Email Us</h4>
+                <p>hello&#64;cooksmart.io<br/>support&#64;cooksmart.io</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="info-card__head">
+              <div class="info-card__icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div>
+                <h4>Response Hours</h4>
+                <p>Monday – Friday<br/>9:00 AM – 6:00 PM GMT</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social Presence -->
+          <div class="social-block">
+            <h5 class="social-block__title">Follow CookSmart</h5>
+            <div class="social-grid">
+              <a href="#" class="social-tile" title="Instagram">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                <span>Instagram</span>
+              </a>
+              <a href="#" class="social-tile" title="TikTok">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+                <span>TikTok</span>
+              </a>
+              <a href="#" class="social-tile" title="YouTube">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+                <span>YouTube</span>
+              </a>
+              <a href="#" class="social-tile" title="Twitter/X">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l16 16M4 20L20 4"/></svg>
+                <span>Twitter / X</span>
+              </a>
+            </div>
+          </div>
+
+        </aside>
+      </div>
+    }
+  </div>
+</section>

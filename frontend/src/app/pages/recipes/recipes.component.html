@@ -1,0 +1,169 @@
+<cs-hero-slider [slides]="heroSlides" height="520px"></cs-hero-slider>
+
+<section class="section">
+  <div class="container">
+    <!-- Professional Recipe Filter Hub -->
+    <div class="recipe-filter-hub cs-card" csReveal>
+      <!-- Row 1: Dual Search Inputs with SVG Icons -->
+      <div class="filter-search-grid">
+        <div class="filter-search-field">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input
+            id="recipe-search"
+            type="text"
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="onFilterChange()"
+            placeholder="Search by recipe name or dish…"
+          />
+          @if (searchTerm) {
+            <button class="clear-btn" (click)="clearSearch()" aria-label="Clear recipe search">✕</button>
+          }
+        </div>
+
+        <div class="filter-search-field">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <input
+            id="ingredient-search"
+            type="text"
+            [(ngModel)]="ingredientSearch"
+            (ngModelChange)="onFilterChange()"
+            placeholder="Filter by ingredients (e.g. egg, chicken, tomato)…"
+          />
+          @if (ingredientSearch) {
+            <button class="clear-btn" (click)="clearIngredientSearch()" aria-label="Clear ingredients search">✕</button>
+          }
+        </div>
+      </div>
+
+      <!-- Row 2: Category Filter Tabs -->
+      <div class="filter-categories-strip">
+        <span class="filter-label">Category:</span>
+        <div class="category-pills">
+          <button
+            class="cat-pill"
+            [class.is-active]="categoryFilter === ''"
+            (click)="setCategory('')"
+          >
+            All Recipes
+          </button>
+          @for (c of categories; track c) {
+            <button
+              class="cat-pill"
+              [class.is-active]="categoryFilter === c"
+              (click)="setCategory(c)"
+            >
+              {{ c }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Row 3: Controls Panel (Difficulty, Prep Time, Sort, Reset) -->
+      <div class="filter-controls-panel">
+        <!-- Difficulty Segmented -->
+        <div class="control-box">
+          <span class="control-label">Difficulty:</span>
+          <div class="diff-pills">
+            <button class="diff-btn" [class.is-active]="difficultyFilter === ''" (click)="setDifficulty('')">All</button>
+            <button class="diff-btn diff-btn--easy" [class.is-active]="difficultyFilter === 'Easy'" (click)="setDifficulty('Easy')">Easy</button>
+            <button class="diff-btn diff-btn--medium" [class.is-active]="difficultyFilter === 'Medium'" (click)="setDifficulty('Medium')">Medium</button>
+            <button class="diff-btn diff-btn--hard" [class.is-active]="difficultyFilter === 'Hard'" (click)="setDifficulty('Hard')">Hard</button>
+          </div>
+        </div>
+
+        <!-- Cooking Time Slider with Presets -->
+        <div class="control-box control-box--time">
+          <div class="time-header">
+            <span class="control-label">Max Cooking Time:</span>
+            <span class="time-value">{{ maxTime }} min</span>
+          </div>
+          <input
+            id="max-time-filter"
+            type="range"
+            min="10"
+            max="90"
+            step="5"
+            [(ngModel)]="maxTime"
+            (ngModelChange)="onFilterChange()"
+          />
+          <div class="time-presets">
+            <button type="button" class="preset-btn" [class.is-active]="maxTime === 20" (click)="setTimePreset(20)">≤20m</button>
+            <button type="button" class="preset-btn" [class.is-active]="maxTime === 35" (click)="setTimePreset(35)">≤35m</button>
+            <button type="button" class="preset-btn" [class.is-active]="maxTime === 50" (click)="setTimePreset(50)">≤50m</button>
+            <button type="button" class="preset-btn" [class.is-active]="maxTime === 90" (click)="setTimePreset(90)">Any</button>
+          </div>
+        </div>
+
+        <!-- Sort Selection -->
+        <div class="control-box control-box--sort">
+          <span class="control-label">Sort Recipes:</span>
+          <div class="select-wrapper">
+            <select id="sort-by-filter" [(ngModel)]="sortBy" (ngModelChange)="onFilterChange()">
+              <option value="name-asc">Name (A → Z)</option>
+              <option value="name-desc">Name (Z → A)</option>
+              <option value="time-asc">Cooking Time (Fastest)</option>
+              <option value="time-desc">Cooking Time (Longest)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Reset Button -->
+        <div class="control-box control-box--actions">
+          <button
+            class="btn btn-outline btn-reset"
+            (click)="resetFilters()"
+            [disabled]="!hasActiveFilters()"
+            title="Reset all filters to default"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;margin-right:6px">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+            </svg>
+            Reset Filters
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Results Counter Bar -->
+    <div class="filter-results-bar" csReveal>
+      <span class="results-badge">
+        <strong>{{ filteredRecipes.length }}</strong> {{ filteredRecipes.length === 1 ? 'recipe' : 'recipes' }} found
+      </span>
+      @if (hasActiveFilters()) {
+        <span class="active-indicator">Filtered view active</span>
+      }
+    </div>
+
+    @if (loading) {
+      <cs-loading-skeleton [count]="8"></cs-loading-skeleton>
+    } @else if (filteredRecipes.length === 0) {
+      <div class="empty-state" csReveal="scale">
+        <div class="empty-state__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"/><line x1="6" y1="17" x2="18" y2="17"/></svg>
+        </div>
+        <h3>No recipes match your filters</h3>
+        <p>Try loosening a filter or clearing your ingredient search.</p>
+        <button class="btn btn-primary" (click)="resetFilters()">Reset Filters</button>
+      </div>
+    } @else {
+      <div class="grid-cards">
+        @for (r of pagedRecipes; track r.id; let i = $index) {
+          <div csReveal [csRevealDelay]="(i % 8) * 60">
+            <cs-recipe-card [recipe]="r"></cs-recipe-card>
+          </div>
+        }
+      </div>
+
+      @if (hasMore) {
+        <div class="text-center" style="margin-top: 36px">
+          <button class="btn btn-royal" (click)="loadMore()">Load More Recipes ↓</button>
+        </div>
+      }
+    }
+  </div>
+</section>

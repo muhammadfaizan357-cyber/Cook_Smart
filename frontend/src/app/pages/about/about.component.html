@@ -1,0 +1,75 @@
+<cs-hero-slider [slides]="heroSlides" height="520px"></cs-hero-slider>
+
+<section class="section">
+  <div class="container about-grid">
+    <div csReveal="left">
+      <span class="eyebrow">Our Purpose</span>
+      <h2>Why CookSmart Exists</h2>
+      <p>Every day, people stare into their fridge wondering what to make. CookSmart removes that friction by letting you search recipes based on what you actually have, how much time you've got, and how confident you're feeling in the kitchen.</p>
+    </div>
+    <div csReveal="right">
+      <span class="eyebrow">Our Objectives</span>
+      <h2>What We Set Out to Build</h2>
+      <p>A responsive, single-page recipe portal with a genuine design system — no boilerplate templates — covering discovery, planning, favourites and a transparent AI-assisted suggestion feature, all backed by pre-populated data.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--band">
+  <div class="container">
+    <div class="section-head" csReveal>
+      <span class="eyebrow">Mission &amp; Vision</span>
+      <h2 class="section-title">What Drives Us</h2>
+      <hr class="divider-gold" />
+    </div>
+    <div class="mv-grid">
+      <div class="mv-card" csReveal="left">
+        <h4>Mission</h4>
+        <p>To make everyday cooking decisions effortless by turning whatever is in your kitchen into a complete, confident recipe.</p>
+      </div>
+      <div class="mv-card" csReveal="right">
+        <h4>Vision</h4>
+        <p>A world where nobody wastes ingredients or time deciding what to eat — smart suggestions, always a tap away.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head" csReveal>
+      <span class="eyebrow">Journey</span>
+      <h2 class="section-title">From Problem to Product</h2>
+      <hr class="divider-gold" />
+    </div>
+    <div class="timeline">
+      @for (t of timeline; track t.title; let i = $index) {
+        <div class="timeline__item" csReveal [csRevealDelay]="i * 100">
+          <span class="timeline__icon">{{ t.icon }}</span>
+          <h5>{{ t.title }}</h5>
+          <p>{{ t.text }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section section--band">
+  <div class="container">
+    <div class="section-head" csReveal>
+      <span class="eyebrow">The Team</span>
+      <h2 class="section-title">Who Built CookSmart</h2>
+      <hr class="divider-gold" />
+      <p class="section-sub">Meet the passionate developers behind CookSmart — built for the TechWiz 7 World Tech Championship.</p>
+    </div>
+    <div class="team-grid">
+      @for (m of team; track m.name; let i = $index) {
+        <div class="team-card cs-card" csReveal="scale" [csRevealDelay]="i * 90">
+          <img [src]="m.avatar" [alt]="m.name" />
+          <h5>{{ m.name }}</h5>
+          <p>{{ m.role }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
