@@ -10,7 +10,7 @@
           [routerLink]="link.path"
           routerLinkActive="is-active"
           [routerLinkActiveOptions]="{ exact: link.path === '/' }"
-          (click)="closeMenu()"
+          (click)="onLinkClick(link.path, $event)"
         >{{ link.label }}</a>
       }
 

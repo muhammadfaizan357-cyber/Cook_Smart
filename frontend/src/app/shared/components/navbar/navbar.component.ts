@@ -1,6 +1,7 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
+import { filter, Subscription } from 'rxjs';
 import { PreferenceService } from '../../../core/services/preference.service';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -11,10 +12,11 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit, OnDestroy {
   prefs = inject(PreferenceService);
   auth = inject(AuthService);
   private router = inject(Router);
+  private navSub?: Subscription;
 
   scrolled = signal(false);
   menuOpen = signal(false);
@@ -31,6 +33,18 @@ export class NavbarComponent {
     { path: '/about', label: 'About' },
     { path: '/contact', label: 'Contact' }
   ];
+
+  ngOnInit(): void {
+    this.navSub = this.router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => {
+        this.closeMenu();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.navSub?.unsubscribe();
+  }
 
   @HostListener('window:scroll')
   onScroll(): void {
@@ -52,6 +66,12 @@ export class NavbarComponent {
   closeMenu(): void {
     this.menuOpen.set(false);
     this.userMenuOpen.set(false);
+  }
+
+  onLinkClick(path: string, event: Event): void {
+    event.preventDefault();
+    this.closeMenu();
+    this.router.navigateByUrl(path);
   }
 
   toggleUserMenu(e: Event): void {
@@ -88,3 +108,4 @@ export class NavbarComponent {
     this.auth.logout();
   }
 }
+
