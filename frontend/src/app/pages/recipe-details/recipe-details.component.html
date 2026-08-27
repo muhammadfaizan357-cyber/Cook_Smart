@@ -58,6 +58,7 @@
               Add to Meal Planner
             </button>
             @if (showPlannerModal) {
+              <div class="planner-popover-backdrop" (click)="showPlannerModal = false"></div>
               <div class="planner-popover">
                 @for (d of days; track d) {
                   <div class="planner-popover__row">
