@@ -292,7 +292,55 @@
   background: linear-gradient(135deg, #ffffff 40%, var(--cs-gold-300) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin: 4px 0 0;
+  margin: 6px 0 0;
+  line-height: 1.3;
+  padding-bottom: 2px;
+}
+
+.empty-card {
+  padding: 56px 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--cs-gradient-card);
+  border: 1.5px dashed rgba(212, 175, 55, 0.35);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+
+  .empty-icon-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.12);
+    border: 1.5px solid rgba(212, 175, 55, 0.3);
+    color: var(--cs-gold-400);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  h3 {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+
+  p {
+    color: var(--cs-text-muted);
+    font-size: 14.5px;
+    max-width: 520px;
+    line-height: 1.6;
+    margin: 0;
+  }
 }
 
 /* KPI Cards */

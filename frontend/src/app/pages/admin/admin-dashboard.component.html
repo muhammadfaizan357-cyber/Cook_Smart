@@ -383,7 +383,13 @@
 
           @if (messages.length === 0) {
             <div class="cs-card empty-card">
-              <p>No feedback or contact submissions yet. Submissions from the public Contact page will arrive here in real-time.</p>
+              <div class="empty-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+              </div>
+              <h3>No Feedback Submissions Yet</h3>
+              <p>Customer inquiries, ratings, and feedback submitted from the public Contact page will appear here in real-time.</p>
             </div>
           } @else {
             <div class="messages-grid">
