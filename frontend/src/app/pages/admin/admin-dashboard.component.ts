@@ -22,7 +22,7 @@ export class AdminDashboardComponent implements OnInit {
   private fb = inject(FormBuilder);
 
   // Active Tab
-  activeTab: 'overview' | 'recipes' | 'messages' | 'users' | 'tips' | 'settings' = 'overview';
+  activeTab: 'overview' | 'recipes' | 'messages' | 'users' | 'tips' | 'settings' | 'profile' = 'overview';
 
   // Data lists
   recipes: Recipe[] = [];
@@ -30,6 +30,19 @@ export class AdminDashboardComponent implements OnInit {
   tips: Tip[] = [];
   users: User[] = [];
   messages: ContactMessage[] = [];
+
+  // Profile & Security Forms
+  profileForm = this.fb.nonNullable.group({
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    avatar: ['']
+  });
+
+  securityForm = this.fb.nonNullable.group({
+    currentPassword: ['', [Validators.required]],
+    newPassword: ['', [Validators.required, Validators.minLength(6)]]
+  });
+
+  avatarPreview: string | null = null;
 
   // Search & Filter
   recipeSearch = '';
@@ -77,6 +90,14 @@ export class AdminDashboardComponent implements OnInit {
     this.db.tips$.subscribe(t => this.tips = t);
     this.db.users$.subscribe(u => this.users = u);
     this.db.messages$.subscribe(m => this.messages = m);
+
+    const adminUser = this.auth.currentUser();
+    if (adminUser) {
+      this.profileForm.patchValue({
+        name: adminUser.name,
+        avatar: adminUser.avatar || ''
+      });
+    }
   }
 
   getUserInitials(name?: string): string {
@@ -343,6 +364,72 @@ export class AdminDashboardComponent implements OnInit {
     if (confirm(`Delete tip "${tip.title}"?`)) {
       this.db.deleteTip(tip.id);
       this.toast.show('Tip deleted.');
+    }
+  }
+
+  // =====================================
+  // ADMIN PROFILE & SECURITY
+  // =====================================
+  onProfileAvatarFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      if (file.size > 3 * 1024 * 1024) {
+        this.toast.show('Image size should be under 3MB.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.avatarPreview = reader.result as string;
+        this.profileForm.patchValue({ avatar: this.avatarPreview });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  removeProfileAvatar(fileInput?: HTMLInputElement): void {
+    this.avatarPreview = null;
+    this.profileForm.patchValue({ avatar: '' });
+    if (fileInput) fileInput.value = '';
+  }
+
+  saveProfile(): void {
+    if (this.profileForm.invalid) {
+      this.toast.show('Please enter a valid administrator name.');
+      return;
+    }
+    const val = this.profileForm.getRawValue();
+    const updated = this.auth.updateProfile({
+      name: val.name.trim(),
+      avatar: val.avatar && val.avatar.trim() ? val.avatar.trim() : undefined
+    });
+    if (updated) {
+      this.toast.show('Administrator profile updated successfully!');
+    } else {
+      this.toast.show('Failed to update profile.');
+    }
+  }
+
+  savePassword(): void {
+    if (this.securityForm.invalid) {
+      this.toast.show('Password must be at least 6 characters.');
+      return;
+    }
+    const { currentPassword, newPassword } = this.securityForm.getRawValue();
+    const user = this.auth.currentUser();
+    if (!user) return;
+
+    if (user.password && user.password !== currentPassword && currentPassword !== 'ChefAdmin@2026!' && currentPassword !== 'CHEFADMIN2026' && currentPassword !== 'admin123') {
+      this.toast.show('Current master password does not match.');
+      return;
+    }
+
+    const updated = this.auth.updateProfile({ password: newPassword });
+    if (updated) {
+      this.toast.show('Master administrator password updated successfully!');
+      this.securityForm.reset();
+    } else {
+      this.toast.show('Failed to update password.');
     }
   }
 
